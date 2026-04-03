@@ -12,22 +12,23 @@ public class Main {
                 DBConfig.getPassword()
         );  Statement statement = connection.createStatement()) {
 
-            String sql = "SELECT * " +
-                    "FROM EMPLEADO " +
-                    "ORDER BY SALARIO DESC";
+            //String con la sentencia
+            String sql = "SELECT NOMBRE_EMP, NOMBRE_DEP " +
+                    "FROM EMPLEADO2 JOIN DEPARTAMENTO USING (ID_DEP) "
+                    + "ORDER BY NOMBRE_EMP";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            //Mientras haya resultados, los guarda en las variables
             while (resultSet.next()) {
-                int id = resultSet.getInt("ID");
-               String nombre = resultSet.getString("NOMBRE");
-               double salario = resultSet.getDouble("SALARIO");
+                String empleado = resultSet.getString("NOMBRE_EMP");
+                String departamento = resultSet.getString("NOMBRE_DEP");
 
-               System.out.println("ID: "+id + " - Nombre: " + nombre + " ->> " + salario+ "€");
+                System.out.println("Empleado: " + empleado + " - Departamento: " + departamento);
             }
         } catch (SQLException e){
-            System.out.println("ERROR -> "+e.getMessage());
+            System.out.println("ERROR --> "+e.getMessage());
         }
     }
 }
